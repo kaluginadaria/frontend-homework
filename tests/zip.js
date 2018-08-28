@@ -74,4 +74,88 @@ QUnit.module('Тестируем функцию zip', function () {
 		};
 		assert.deepEqual(zip({name: 'age'}, {value: 42}, {name: 'cost'}, {value: -6}), obj);
 	});
+
+	QUnit.test('Функция правильно работает с объектами, в которых разное количество свойств', function (assert) {
+		const obj1 = {
+			color: "black",
+			width: 100
+		};
+
+		const obj2 = {
+			color: "black", 
+			width: 100, 
+			height: 200
+		};
+
+		const obj3 = {
+			a: 1, 
+			b: 2, 
+			c: -10
+		};
+
+		const obj4 = {
+			d: null, 
+			e: false
+		};
+
+		const obj5 = {
+			a: 1, 
+			b: 2, 
+			c: -10, 
+			d: null, 
+			e: false
+		};
+
+		assert.deepEqual(zip(obj1, {height: 200}), obj2);
+		assert.deepEqual(zip(obj3, obj4 ), obj5);
+		assert.deepEqual(zip(obj3, {}), obj3);
+		assert.deepEqual(zip({}, obj3, {}), obj3);
+	});
+
+	QUnit.test('Функция правильно работает с неправильными аргументами', function (assert) {
+		const arg1 = "first";
+		const arg2 = true;
+		const arg3 = [1, 2, 3];
+		const arg4 = null;
+		const arg5 = 1;
+		assert.throws(
+		    zip(),
+		    undefined,
+    	);
+  		assert.throws(
+		    function(){
+		    	zip(arg1,arg1);
+		    },
+		    new TypeError('unexpected value, not an Object')
+    		
+  		);
+  		assert.throws(
+		    function(){
+		    	zip(arg2);
+		    },
+		    new TypeError('unexpected value, not an Object')
+    		
+  		);
+  		assert.throws(
+		    function(){
+		    	zip(arg3);
+		    },
+		    new TypeError('unexpected value, not an Object')
+    		
+  		);
+  		assert.throws(
+		    function(){
+		    	zip(arg4);
+		    },
+		    new TypeError('unexpected value, not an Object')
+    		
+  		);
+  		assert.throws(
+		    function(){
+		    	zip(arg5);
+		    },
+		    new TypeError('unexpected value, not an Object')
+    		
+  		);
+	});
 });
